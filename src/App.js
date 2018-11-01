@@ -4,6 +4,7 @@ import React, {
 import './App.css';
 import Map from "./component/Map";
 import SquareAPI from "./API/";
+import SideBar from "./component/SideBar";
 
 class App extends Component {
   constructor() {
@@ -12,8 +13,11 @@ class App extends Component {
       venues: [],
       markers: [],
       center: [],
-      zoom: 12
-    }
+      zoom: 12,
+      updateSuperState: obj => {
+        this.setState(obj);
+      }
+    };
   }
   closeAllMarkers = () => {
     const markers = this.state.markers.map(marker => {
@@ -25,19 +29,24 @@ class App extends Component {
   handleMarkerClick = marker => {
     this.closeAllMarkers();
     marker.isOpen = true;
-    this.setState({markers: Object.assign(this.state.markers, marker)});
+    this.setState({ markers: Object.assign(this.state.markers, marker)});
     const venue = this.state.venues.find(venue => venue.id === marker.id);
+
     SquareAPI.getVenueDetails(marker.id).then(res => {
       const newVenue = Object.assign(venue, res.response.venue);
       this.setState({ venues: Object.assign(this.state.venues, newVenue)});
       console.log(newVenue);
     });
   };
+  handleListItemClick = venue => {
+    const marker = this.state.markers.find(marker => marker.id === venue.id);
+    this.handleMarkerClick(marker);
+  };
   componentDidMount() {
     SquareAPI.search({
-      near: "Austin,TX",
-      query: "tacos",
-      limit: 10
+      near: "Bucharest,RO",
+      query: "coffee",
+      limit: 7
     }).then(results => {
       const {
         venues
@@ -47,8 +56,8 @@ class App extends Component {
       } = results.response.geocode.feature.geometry;
       const markers = venues.map(venue => {
         return {
-          lat: parseFloat(venue.location.lat),
-          lng: parseFloat(venue.location.lng),
+          lat: venue.location.lat,
+          lng: venue.location.lng,
           isOpen: false,
           isVisible: true,
           id: venue.id
@@ -65,14 +74,12 @@ class App extends Component {
   render() {
     return ( <
       div className = "App" >
-      <
-      Map { ...this.state
-      }
-      handleMarkerClick = {
-        this.handleMarkerClick
-      }
-      / > < /
-      div >
+      <SideBar
+        {...this.state}
+        handleListItemClick={this.handleListItemClick}
+      />
+      <Map { ...this.state} handleMarkerClick = {this.handleMarkerClick}/>
+      </div >
     );
   }
 }

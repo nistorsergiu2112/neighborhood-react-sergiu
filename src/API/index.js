@@ -4,9 +4,9 @@ class Helper {
   }
   static auth() {
     const keys = {
-      client_id: "S44UQUKXMK2Y0A1XGPTVK12WE2YVYNDRK3M100PYXIAFWI3Y",
-      client_secret: "AI1LCXNNZ2YEADO4DOOI1WLZHHMO0AWO51NFINZUTSUFHLFU",
-      v: "20181101"
+      client_id: "O1BXTX0YD0DFYDRGP1QCXLYOAE3ARBSMNTZQDPZGLKXIBLLR",
+      client_secret: "OLJHK1FAWINBPBNG35AGBSIWV0GII2MSMFCLIF0JLIPVE5PV",
+      v: "20181102"
     };
     return Object.keys(keys).map(key => `${key}=${keys[key]}`).join("&");
   }
@@ -19,7 +19,7 @@ class Helper {
   static headers() {
     return {
       Accept: "application/json"
-    }
+    };
   }
   static simpleFetch(endPoint, method, urlPrams) {
     let requestData = {
