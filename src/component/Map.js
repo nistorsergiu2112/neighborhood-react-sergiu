@@ -13,27 +13,37 @@ const MyMapComponent = withScriptjs(
     GoogleMap defaultZoom = {
       8
     }
+    zoom = {
+      props.zoom
+    }
     defaultCenter = {
       {
         lat: -34.397,
         lng: 150.644
       }
-    }> {
-      props.isMarkerShown && ( <
-        Marker
+    }
+    center = {
+      props.center
+    } > {
+      props.markers && props.markers.filter(marker => marker.isVisible).map((marker, idx) => ( <
+        Marker key = {
+          idx
+        }
         position = {
           {
-            lat: -34.397,
-            lng: 150.644
+            lat: marker.lat,
+            lng: marker.lng
           }
-        }/ >
-      )
+        }
+        / >
+      ))
     } <
     /GoogleMap>
   )));
 export default class Map extends Component {
   render() {
-      return ( < MyMapComponent isMarkerShown
+      return ( < MyMapComponent { ...this.props
+          }
           googleMapURL = "https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBoH7DkpkDUKG-4-raHveaNj15Y1R1P14c"
           loadingElement = { < div style = {
               {
