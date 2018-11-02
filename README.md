@@ -19,7 +19,7 @@ I built this with: HTML, CSS, JavaScript, React, Google Maps API and create-reac
 ### Production Mode
 - To create a production build use ```npm run build```
 - Then use ```npm install -g serve```
-- Use the command serve -s to acces the Production Mode (This mode includes a Service Worker).
+- Use the command ```serve -s``` to acces the Production Mode (This mode includes a Service Worker).
 - This mode includes a Service Worker.
 
 ## Resources:
